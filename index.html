@@ -114,7 +114,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -132,6 +132,192 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/26/Stacks-and-Queues/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Xinheng Wu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xinheng Wu's blog">
+      <meta itemprop="description" content="This is my personal blog.">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Xinheng Wu's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/09/26/Stacks-and-Queues/" class="post-title-link" itemprop="url">Stacks_and_Queues</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-09-26 10:06:35" itemprop="dateCreated datePublished" datetime="2023-09-26T10:06:35+10:00">2023-09-26</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="Stack-Monotonic"><a href="#Stack-Monotonic" class="headerlink" title="Stack &amp; Monotonic"></a>Stack &amp; Monotonic</h1><p>A stack is an <strong>ordered</strong> collection of elements where elements are only added and removed from the same end. <strong>Last in First out.</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">stack = []</span><br><span class="line">stack.append(<span class="number">1</span>)</span><br><span class="line">stack.append(<span class="number">2</span>)</span><br><span class="line">stack.pop() <span class="comment"># 1 </span></span><br><span class="line">stack.pop() <span class="comment"># delete and return last element called popping</span></span><br><span class="line"><span class="keyword">not</span> stack <span class="comment"># check if it&#x27;s empty </span></span><br><span class="line">stack[-<span class="number">1</span>] <span class="comment"># check element at top</span></span><br><span class="line"><span class="built_in">len</span>(stack) <span class="comment"># get size </span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>20. Valid Parentheses</strong><br>Given a string <code>s</code> containing just the characters <code>&#39;(&#39;, &#39;)&#39;, &#39;&#123;&#39;, &#39;&#125;&#39;, &#39;[&#39; and &#39;]&#39;</code>, determine if the input string is valid. The string is <strong>valid</strong> if all open brackets are closed by the same type of closing bracket in the correct order, and each closing bracket closes exactly one open bracket.</p>
+</blockquote>
+<blockquote>
+<p>For example, <code>s = &quot;(&#123;&#125;)&quot;</code> and <code>s = &quot;()&#123;&#125;[]&quot;</code> are valid, but s &#x3D; “(]” and s &#x3D; “({)}” are not valid.</p>
+</blockquote>
+<p><strong>Why we can use stack to solve this problem?</strong></p>
+<ul>
+<li><p><code>&#123;[()]&#125;</code> meaning that <strong>the LAST</strong> left parentheses will be <strong>the FIRST</strong> one to be closed. CLOSED means removed from the stack.</p>
+</li>
+<li><p>We can use a <code>stack</code> to input LEFT parentheses, and removem them when it being closed following <strong>last in first out</strong> order. </p>
+</li>
+<li><p>Need to consider case <code>&quot;&#125;])&quot;</code>. meaning that if <code>stack is empty</code> when input a right parentheses, return False immediately.</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">validParentheses</span>(<span class="params">self, s</span>):</span><br><span class="line">       mapp = &#123;<span class="string">&#x27;(&#x27;</span>: <span class="string">&#x27;)&#x27;</span>, <span class="string">&#x27;&#123;&#x27;</span>: <span class="string">&#x27;&#125;&#x27;</span>, <span class="string">&#x27;[&#x27;</span>: <span class="string">&#x27;]&#x27;</span>&#125;</span><br><span class="line">        stack = []</span><br><span class="line">        <span class="keyword">for</span> ch <span class="keyword">in</span> s:</span><br><span class="line">            <span class="keyword">if</span> ch <span class="keyword">in</span> mapp.keys():</span><br><span class="line">                stack.append(ch)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">if</span> stack:</span><br><span class="line">                    last = stack.pop()</span><br><span class="line">                    <span class="keyword">if</span> ch != mapp[last]:</span><br><span class="line">                        <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="keyword">return</span> <span class="literal">False</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(stack)==<span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>1047. Remove All adjacent Duplicates in String</strong> For example, given s &#x3D; “abbaca”, you can first remove the “bb” to get “aaca”. Next, you can remove the “aa” to get “ca”. This is the final answer.</p>
+</blockquote>
+<ul>
+<li>if <code>stack and stack[-1]==ch</code>, <code>stack.pop()</code></li>
+<li>if <code>not stack or stack[-1]!-ch</code>, <code>stack.append(ch)</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">removeAjaDup</span>(<span class="params">s</span>):</span><br><span class="line">    stack = []</span><br><span class="line">    <span class="keyword">for</span> ch <span class="keyword">in</span> s:</span><br><span class="line">        <span class="keyword">if</span> stack <span class="keyword">and</span> stack[-<span class="number">1</span>]==ch:</span><br><span class="line">            stack.pop()</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            stack.append(ch)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;&quot;</span>.join(stack)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>844. Backspace String Compare</strong> Given two strings <code>s</code> and <code>t</code>, return <code>true</code> if they are <strong>equal</strong> when both are typed into empty text editors. <code>&#39;#&#39; </code>means a backspace character. For example, given s &#x3D; “ab#c” and t &#x3D; “ad#c”, return true. Because of the backspace, the strings are both equal to “ac”.</p>
+</blockquote>
+<ul>
+<li>if <code>ch==#</code>, <code>stack.pop()</code>. </li>
+<li>need to consider when <code>ch==# and not stack</code>, do nothing.</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">backspaceString</span>(<span class="params">s,t</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get_text</span>(<span class="params">s</span>):</span><br><span class="line">        stack = []</span><br><span class="line">        <span class="keyword">for</span> ch <span class="keyword">in</span> s:</span><br><span class="line">            <span class="keyword">if</span> ch == <span class="string">&quot;#&quot;</span> <span class="keyword">and</span> stack:</span><br><span class="line">                stack.pop()</span><br><span class="line">            <span class="keyword">elif</span> ch == <span class="string">&quot;#&quot;</span> <span class="keyword">and</span> <span class="keyword">not</span> stack:</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                stack.append(ch)</span><br><span class="line">        <span class="keyword">return</span> stack</span><br><span class="line">    <span class="keyword">return</span> get_text(s) == get_text(t)</span><br></pre></td></tr></table></figure>
+
+<h1 id="Queues"><a href="#Queues" class="headerlink" title="Queues"></a>Queues</h1><p>A queue follows FIFO, **first in first out. ** </p>
+<p>Use <strong>doubly linked list</strong> to implement Queue could have O(1) in adding and removing elements. </p>
+<p>Adding to a queue is called <strong>enqueue</strong>, and deletions are called <strong>dequeue</strong>. There is a data structure called <code>&quot;deque&quot;</code>. The most common use of a queue is to implement <code>Breadth-First-Search</code>. </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> collections</span><br><span class="line">queue = collections.deque()</span><br><span class="line">queue = collections.deque([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>])</span><br><span class="line">queue.append(<span class="number">4</span>)</span><br><span class="line">queue.popleft() <span class="comment"># 1. </span></span><br><span class="line">queue[<span class="number">0</span>] <span class="comment"># 2 check element at the front of queue (next one to be removed)</span></span><br><span class="line"><span class="built_in">len</span>(queue) <span class="comment">#get size</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Monotonic-Stack"><a href="#Monotonic-Stack" class="headerlink" title="Monotonic Stack"></a>Monotonic Stack</h1><blockquote>
+<p>Monotonic stacks and queues maintain their sorted property by removing elements that would violate the property before adding new elements. </p>
+</blockquote>
+<p>For example, monotonic increasing stack [1,5,8,15,23], if we want to push 14 into the stack. We have to pop 23, and pop 15, before pushing 14. Then stack &#x3D; [1,5,8,14]</p>
+<p><strong>Pseudocode of increasing monotonic</strong>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">stack = []</span><br><span class="line"><span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">    <span class="keyword">while</span> stack <span class="keyword">and</span> stack[-<span class="number">1</span>] &gt;= num:</span><br><span class="line">        stack.pop()</span><br><span class="line">    stack.append(num)</span><br></pre></td></tr></table></figure>
+
+<p><strong>Pseudocode of decreasing monotonic</strong>:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">stack = []</span><br><span class="line"><span class="keyword">for</span> num <span class="keyword">in</span> nums:</span><br><span class="line">    <span class="keyword">while</span> stack <span class="keyword">and</span> stack[-<span class="number">1</span>] &lt;= num:</span><br><span class="line">        stack.pop()</span><br><span class="line">    stack.append(num)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>Meaning that we need to construct a monotonic stack to solve the problem, usually involves <code>finding the next element  based on some criteria</code>, e.g., <code>the next greater element</code>. </p>
+<blockquote>
+<p><strong>Example: 739. Daily Temperature</strong> Given an array of integers temperatures that represents the daily temperatures, return an array answer such that <code>answer[i]</code> is the number of days you have to wait after the <code>ith</code> day to get a warmer temperature. If there is no future day that is warmer, have answer[i] &#x3D; 0 instead.</p>
+</blockquote>
+<blockquote>
+<p>For input <code>temperatures = [34, 33, 32, 31, 30, 50]</code>, we output <code>answer = [5,4,3,2,1]</code>.</p>
+</blockquote>
+<ul>
+<li>Because <code>33 &lt; 34</code>, and if <code>32&lt;33</code>, then 32 must smaller than 34. So waiting how many days till a warmer day, meaning a monotonic decreasing stack. </li>
+<li>When we see today (<code>ith day</code>) of a higher temperature than previous day, we pop the previous day, and compare today with the day before previous day, if still greater, keep popping when <code>stack and temperature[today] &gt; stack[-1]</code>. </li>
+<li>If we use stack to keep the day index <code>j</code> for decreasing days, we can Update the answer with <code>i-j</code> to indicate “waiting how many days till a warmer day”.</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">warmerTemp</span>(<span class="params">temperatures</span>):</span><br><span class="line">    n = <span class="built_in">len</span>(temperatures)</span><br><span class="line">    ans = [<span class="number">0</span>] * n</span><br><span class="line">    stack = []</span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        <span class="keyword">while</span> stack <span class="keyword">and</span> temperatures[t] &gt; temperatures[stack[-<span class="number">1</span>]]:</span><br><span class="line">            j = stack.pop()</span><br><span class="line">            ans[j] = t - j</span><br><span class="line">        stack.append(t)</span><br><span class="line">    <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>239. Sliding Window Maximum</strong> Given an integer array nums and an integer k, there is a sliding window of size k that moves from the very left to the very right. For each window, find the maximum element in the window.</p>
+</blockquote>
+<blockquote>
+<p>For example, given <code>nums = [1, 3, -1, -3, 5, 3, 6, 7]</code>, <code>k = 3</code>, return <code>[3, 3, 5, 5, 6, 7]</code>. The first window is [1, 3, -1] and the last window is [3, 6, 7].</p>
+</blockquote>
+<ul>
+<li><p>Because we need the maximum number of a window, after the maximum number be removed from the window, we need to know the second largest number. </p>
+</li>
+<li><p>This should alse be updating on new elements being added. when we see a larger number, we no longer care about any number in the window that are smaller. </p>
+</li>
+<li><p>So, we consider a monotonic descreasing stack.</p>
+</li>
+</ul>
+<p>Considering that when the sliding window moves from left to right, a maximum number may be removed fron the window (when <code>i&gt;=queue[0]+k</code>), Requiring to delete from the other end. After deletion, the second largest number become the largest. (as we maintained a monotonic descreasing queue)</p>
+<p>So we use a queue rather than stack. </p>
+<p>Also, good to know that we need to first build a k-size window, keep the maximal number at queue[0]. Then for every iteration of nums[i], we will have a new sliding window, with their maximum number to be added to <code>ans</code>.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">slidingWindowMax</span>(<span class="params">nums, k</span>):</span><br><span class="line">    queue = deque()</span><br><span class="line">    ans = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(nums)):</span><br><span class="line">        <span class="keyword">while</span> queue <span class="keyword">and</span> nums[i] &gt; nums[queue[-<span class="number">1</span>]]:</span><br><span class="line">            queue.pop()</span><br><span class="line"></span><br><span class="line">        queue.append(i)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> i == queue[<span class="number">0</span>] + k:</span><br><span class="line">            queue.popleft()</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>  i &gt;= k-<span class="number">1</span>:</span><br><span class="line">            ans.append(nums[queue[<span class="number">0</span>]])</span><br><span class="line">    <span class="keyword">return</span> ans </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>1438. Longest Continuous Subarray without absolute diff less than or equal to limit</strong>  Given an array of integers <code>nums</code> and an integer <code>limit</code>, return the size of the longest subarray such that the absolute difference between any two elements of this subarray is less than or equal to limit.</p>
+</blockquote>
+<ul>
+<li>We need to compute the maximal difference of a window, <code>max - min</code>.</li>
+<li>When <code>right</code> incrementing, use a increasing monotonic stack to keep <code>min</code> at the first index, while using a decreasing monotonic stack to keep <code>max</code> at the last index. </li>
+<li>When <code>max - min &lt; limit</code>, meaning the window become INVALID, increment <code>left</code> and remove corresponding <code>max</code> or <code>min</code> from stacks if <code>left</code> were at there positions.</li>
+<li>Keep <code>ans = max(ans, right-left+1)</code></li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">longestDiffk</span>(<span class="params">nums,limit</span>):</span><br><span class="line">    increasing = deque()</span><br><span class="line">    decreasing = deque()</span><br><span class="line">    left, n = <span class="number">0</span>, <span class="built_in">len</span>(nums) </span><br><span class="line">    ans = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> right <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        <span class="keyword">while</span> increasing <span class="keyword">and</span> increasing[-<span class="number">1</span>] &gt; nums[right]:</span><br><span class="line">            increasing.pop()</span><br><span class="line">        increasing.append(nums[right])</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> decreasing <span class="keyword">and</span> decreasing[-<span class="number">1</span>] &lt; nums[right]:</span><br><span class="line">            decreasing.pop()</span><br><span class="line">        decreasing.append(nums[right])</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> decreasing[<span class="number">0</span>] - increasing[<span class="number">0</span>] &gt;limit:</span><br><span class="line">            <span class="keyword">if</span> nums[left] == decreasing[<span class="number">0</span>]:</span><br><span class="line">                decreasing.popleft()</span><br><span class="line">            <span class="keyword">if</span> nums[left] == increasing[<span class="number">0</span>]:</span><br><span class="line">                increasing.popleft()</span><br><span class="line">            left += <span class="number">1</span></span><br><span class="line">        ans = <span class="built_in">max</span>(<span class="built_in">max</span>, right-left+<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> ans </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>496. Next Greater Element 1.</strong> The next <code>greater</code> element of some element <code>x</code> in an array is the first greater element that is to the right of x in the same array.</p>
+</blockquote>
+<blockquote>
+<p>You are given two distinct 0-indexed integer arrays nums1 and nums2, where nums1 is a subset of nums2.</p>
+</blockquote>
+<blockquote>
+<p>For <strong>each</strong> <code>0 &lt;= i &lt; nums1.length</code>, find the index <code>j</code> such that <code>nums1[i] == nums2[j]</code> and determine the <strong>next greater</strong> element of <code>nums2[j]</code> in nums2. If there is no next greater element, then the answer for this query is <code>-1</code>.</p>
+</blockquote>
+<blockquote>
+<p>Return an array <code>ans</code> of length <code>nums1</code>.length such that ans[i] is the next greater element as described above.</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">nextGreaterElement</span>(<span class="params">self,nums1, nums2</span>):</span><br><span class="line">        stack = []</span><br><span class="line">        mapp = &#123;&#125;</span><br><span class="line">        n, m = <span class="built_in">len</span>(nums1), <span class="built_in">len</span>(nums2)</span><br><span class="line">        index = [-<span class="number">1</span>] * m</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(m):</span><br><span class="line">            <span class="keyword">while</span> stack <span class="keyword">and</span> nums2[stack[-<span class="number">1</span>]] &lt; nums2[i]:</span><br><span class="line">                j = stack.pop()</span><br><span class="line">                index[j] = i</span><br><span class="line">            stack.append(i)</span><br><span class="line"></span><br><span class="line">            mapp[nums2[i]] = i</span><br><span class="line">        ans = [-<span class="number">1</span>] * n</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">            k = index[mapp[nums1[j]]]</span><br><span class="line">            <span class="keyword">if</span> k != -<span class="number">1</span>:</span><br><span class="line">                ans[j] = nums2[k]</span><br><span class="line">        <span class="keyword">return</span> ans </span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>901. Online Stock Span</strong>. </p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">StockSpanner</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        self.stack = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">next</span>(<span class="params">self, price: <span class="built_in">int</span></span>) -&gt; <span class="built_in">int</span>:</span><br><span class="line">        ans = <span class="number">1</span></span><br><span class="line">        <span class="keyword">while</span> self.stack <span class="keyword">and</span> self.stack[-<span class="number">1</span>][<span class="number">0</span>] &lt;= price:</span><br><span class="line">            ans += self.stack.pop()[<span class="number">1</span>]</span><br><span class="line">        </span><br><span class="line">        self.stack.append([price, ans])</span><br><span class="line">        <span class="keyword">return</span> ans</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
